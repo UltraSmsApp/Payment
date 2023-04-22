@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Payment Request Form</title>
+  <style>
+   /* CSS code goes here */
+body {
+ font-family: Arial, sans-serif;
+ background-color: #f0f0f0;
+ padding: 20px;
+}
+
+h1 {
+ text-align: center;
+}
+
+form {
+ max-width: 500px;
+ margin: 0 auto;
+ background-color: #fff;
+ padding: 20px;
+ border-radius: 10px;
+ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+label {
+ display: block;
+ font-weight: bold;
+ margin-bottom: 10px;
+}
+
+input[type="radio"],
+input[type="number"],
+input[type="text"],
+input[type="submit"] {
+ display: block;
+ width: 100%;
+ padding: 10px;
+ margin-bottom: 20px;
+ border-radius: 5px;
+ border: 1px solid #ccc;
+ font-size: 16px;
+ box-sizing: border-box;
+}
+
+input[type="radio"] + label {
+ display: inline-block;
+ margin-right: 10px;
+}
+
+input[type="submit"] {
+ background-color: #4CAF50;
+ color: #fff;
+ cursor: pointer;
+ transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+ background-color: #3e8e41;
+}
+
+
+  </style>
+ </head>
+ <body>
+  <h1>Payment Request Form</h1>
+  <form>
+   <label for="payment-method">নগদ থেকে টাকা পাঠালে নিচের Nagad লেখার উপর ক্লিক করুন।</label>
+   <br>
+   <input type="radio" name="payment-method" value="Bkash" id="bkash-option" checked>
+   <label for="bkash-option">Bkash</label>
+   <br>
+   <input type="radio" name="payment-method" value="Nagad" id="nagad-option">
+   <label for="nagad-option">Nagad</label>
+   <br><br>
+   <label for="payment-number">যে নম্বর থেকে টাকা পাঠিয়েছেন, সেই নম্বর টি লিখুন।</label>
+   <br>
+   <input type="number" name="payment-number" id="payment-number">
+   <br><br>
+   <label for="facebook-link">আপনার টেলিগ্রাম আইডি লিংক দিন</label>
+   <br>
+   <input type="text" name="facebook-link" id="facebook-link">
+   <br><br>
+   <input type="submit" value="Submit">
+  </form>
+  <script>
+   const form = document.querySelector('form');
+
+   form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+    const paymentNumber = document.querySelector('input[name="payment-number"]').value;
+    const facebookLink = document.querySelector('input[name="facebook-link"]').value;
+
+    // Send message to Telegram bot
+    const botToken = '6153677989:AAHAp3TkxG6ArHwwJnt00cJ65Yi4KsMHogQ';
+    const chatId = '1707664400';
+    const message = New payment request received:\nPayment Method: ${paymentMethod}\nPayment Number: ${paymentNumber}\nFacebook Link: ${facebookLink};
+    const url = https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)};
+
+    try {
+     const response = await fetch(url);
+     const data = await response.json();
+     console.log(data);
+     alert('আমরা আপনার পেমেন্ট রিকুয়েস্ট পেয়েছি ! অনুগ্রহ করে কিছু মিনিট অপেক্ষা করুন আমরা আপনার টেলিগ্রাম আইডিতে মেসেজ করে, আপনাকে, ইমেইল বম্বিং বট  টুলস,  ও সেটআপ ভিডিও সহকারে পাঠিয়ে দেব। ');
+    } catch (error) {
+     console.error(error);
+     alert('Error sending message.');
+    }
+   });
+  </script>
+ </body>
+</html>
